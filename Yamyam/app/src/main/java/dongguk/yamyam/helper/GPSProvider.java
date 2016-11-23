@@ -12,7 +12,7 @@ public class GPSProvider {
 
     LocationManager mlocManager;
     LocationListener mlocListener;
-
+    String provider;
     Location location;
     String bestProvider;
     Criteria criteria;
