@@ -230,22 +230,23 @@ public class DetailActivity extends AppCompatActivity {
 
     public void like_onclick(View v){
         Intent i=new Intent(this, LikeActivity.class);
-        i.putExtra("key", key); startActivity(i); finish();
+        i.putExtra("key", key); startActivity(i);
     }
 
     public void review_onclick(View v){
         Intent i=new Intent(this, ReviewListActivity.class);
-        i.putExtra("key", key); startActivity(i); finish();
+        i.putExtra("key", key); startActivity(i);
     }
 
     public void review_write_onclick(View v){
         Intent i=new Intent(this, WriteReviewActivity.class);
-        i.putExtra("key", key); startActivity(i); finish();
+        i.putExtra("key", key); startActivity(i);
     }
 
     public void gps_onclick(View v){
         Intent i=new Intent(this, DetailGpsActivity.class);
         i.putExtra("xy_dnts", storeData.storeLatX +"," + storeData.storeLongY);
-        startActivity(i); finish();
+        startActivity(i);
     }
 }
+
