@@ -1,12 +1,22 @@
 package dongguk.yamyam.activity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import dongguk.yamyam.R;
 import dongguk.yamyam.helper.GPSProvider;
@@ -14,63 +24,72 @@ import dongguk.yamyam.helper.GPSProvider;
 /**
  * Created by SJ on 2016-11-19.
  */
-public class DetailGpsActivity extends AppCompatActivity {
-
+public class DetailGpsActivity extends AppCompatActivity implements OnMapReadyCallback {
     float actual_distance; //실제 거리 값을 담을 변수
     double myLongitude;
     double myLatitude;
+    double x_dnts;
+    double y_dnts;
+    private GoogleMap googleMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gps);
+        setContentView(R.layout.activity_detail_gps);
 
         String xy_dnt = getIntent().getStringExtra("xy_dnts");
         String[] xy_dnts = xy_dnt.split(",");
-        Log.d(xy_dnt, "xy_dnts");
 
+        x_dnts = Double.parseDouble(xy_dnts[0]);
+        y_dnts = Double.parseDouble(xy_dnts[1]);
 
-        Double x_dnts = Double.parseDouble(xy_dnts[0]);
-        Double y_dnts = Double.parseDouble(xy_dnts[1]);
+        getDistance();
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+    }
+
+    public void getDistance(){
+        TextView tdistance;
 
         LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-
-        // 시스템에서 제공하는 위치 정보 서비스를 받아와서 그를 LocationManager로 캐스팅
-
         GPSProvider gps = new GPSProvider(mlocManager); //오브젝트 생성
 
         myLongitude = gps.getLongitude();
-        Log.d(Double.toString(myLongitude), "longitude");
-
         myLatitude = gps.getLatitude();
-        Log.d(Double.toString(myLatitude), "latitude");
-
         float[] distance = new float[2]; // float 형태의 사이즈 2의 행렬 생성
 
-        Location.distanceBetween(myLongitude, myLatitude, x_dnts, y_dnts, distance);
+        Location.distanceBetween(myLatitude, myLongitude, y_dnts, x_dnts, distance);
 
         actual_distance = distance[0]; //간단한 사용을 위해 일반 변수로 넘겨주기.
-        Log.d(Double.toString(actual_distance), "distance");
 
-        printResult();
+        tdistance=(TextView)findViewById(R.id.textDistance);
+
+        if(actual_distance>=1000) {
+            tdistance.setText(Float.toString(Math.round(actual_distance / 1000 * 100f) / 100f)+"km");
+        }
+        else {
+            tdistance.setText(Integer.toString(Math.round((int)actual_distance))+"m");
+        }
     }
 
-    public void printResult() {
-        TextView latitude;
-        TextView longitude;
-        TextView distance;
+    @Override
+    public void onMapReady(final GoogleMap map) {
+        LatLng START = new LatLng(myLatitude, myLongitude);
+        LatLng END = new LatLng(y_dnts, x_dnts);
+        googleMap = map;
 
-        latitude = (TextView) findViewById(R.id.textLatitude);
-        longitude=(TextView)findViewById(R.id.textLongitude);
-        distance=(TextView)findViewById(R.id.textDistance);
-
-        latitude.setText(Double.toString(myLatitude));
-        longitude.setText(Double.toString(myLongitude));
-        distance.setText(Float.toString(actual_distance)+"m");
-
+        Marker start = googleMap.addMarker(new MarkerOptions().position(START)
+                .title("start").icon(BitmapDescriptorFactory
+                        .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        Marker end = googleMap.addMarker(new MarkerOptions().position(END)
+                .title("end").icon(BitmapDescriptorFactory
+                        .defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(START));
+        googleMap.addPolyline(new PolylineOptions().add(START, END).width(10).color(Color.RED));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(11));
     }
 
-    public float returnDistance(){
-        return actual_distance;
-    }
 }
