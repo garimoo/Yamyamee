@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="카카오톡 공유"
+        android:id="@+id/kakaotalk"
+        android:onClick="kakao_onclick"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="전화걸기"
+        android:id="@+id/call"
+        android:onClick="call_onclick"/>
+</LinearLayout>
