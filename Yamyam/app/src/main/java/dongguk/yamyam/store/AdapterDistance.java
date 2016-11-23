@@ -51,7 +51,13 @@ public class AdapterDistance extends RecyclerView.Adapter<RecyclerView.ViewHolde
         myHolder.textName.setText(current.storeName);
         myHolder.textAddress.setText(current.storeAddress);
         myHolder.textSubject.setText(current.storeSubject);
-        myHolder.textDistance.setText(Double.toString(current.storeDistance));
+        if(current.storeDistance>=1000) {
+            myHolder.textDistance.setText(Float.toString(Math.round(current.storeDistance / 1000 * 100f) / 100f)+"km");
+        }
+        else {
+            myHolder.textDistance.setText(Integer.toString(Math.round((int)current.storeDistance))+"m");
+        }
+
     }
     // return total item from List
     @Override
@@ -91,8 +97,8 @@ class DistanceComparator implements Comparator<DataStore> {
         double firstValue = first.storeDistance;
         double secondValue = second.storeDistance;
 
-        if(firstValue>secondValue) return -1;
-        else if(firstValue<secondValue) return 1;
+        if(firstValue<secondValue) return -1;
+        else if(firstValue>secondValue) return 1;
         else return 0;
     }
 }
