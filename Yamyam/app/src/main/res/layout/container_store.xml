@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container_store"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardElevation="20dp"
+    card_view:contentPadding="15dp"
+    card_view:cardCornerRadius="15dp"
+    card_view:cardMaxElevation="20dp"
+    >
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+    <TableRow>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="store name"
+        android:id="@+id/textName"
+        android:layout_marginLeft="5dp"/>
+    </TableRow>
+
+    <TableRow>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="store address"
+        android:id="@+id/textAddress"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@id/textName"
+        android:textColor="#666"/>
+    </TableRow>
+
+    <TableRow>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="store subject"
+        android:id="@+id/textSubject"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@id/textAddress"
+        android:textColor="#666"/>
+    </TableRow>
+</TableLayout>
+</android.support.v7.widget.CardView>
