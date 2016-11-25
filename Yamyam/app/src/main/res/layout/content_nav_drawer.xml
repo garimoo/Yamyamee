@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.Yamyam.MainActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="90dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="20dp">
+
+            <EditText
+                android:id="@+id/search"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="100dp"
+                android:hint="업체명 검색"
+                android:inputType="text"
+                android:padding="10dp"
+                android:singleLine="true" />
+
+            <ImageButton
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/magnifierbtn"
+                android:onClick="magnifier_onclick"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/magnifier" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/searchbtn"
+                android:onClick="search_onclick"
+                android:background="@drawable/search" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/gpsbtn"
+                android:onClick="gps_onclick"
+                android:background="@drawable/map" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <Button
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:id="@+id/storebtn"
+                android:onClick="store_onclick"
+                android:background="@drawable/store" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="카테고리"
+                android:textSize="20dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="위치 찾기"
+                android:textSize="20dp"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="위생 업체"
+                android:textSize="20dp"
+                android:layout_marginLeft="18dp"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="50dp"
+                android:background="#FFA500"
+                android:layout_alignParentBottom="true"/>
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/homebtn"
+                android:onClick="home_onclick"
+                android:background="@drawable/home"
+                android:layout_marginLeft="20dp"
+                android:layout_alignParentBottom="true" />
+
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/searchrightbtn"
+                android:onClick="searchright_onclick"
+                android:background="@drawable/magnifier2"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="120dp" />
+
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/placebtn"
+                android:onClick="place_onclick"
+                android:background="@drawable/placeholder2"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="220dp" />
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/favoritebtn"
+                android:onClick="favorite_onclick"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="310dp"
+                android:background="@drawable/heart" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</FrameLayout>
