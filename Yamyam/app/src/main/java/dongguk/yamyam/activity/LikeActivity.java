@@ -162,7 +162,6 @@ public class LikeActivity extends AppCompatActivity {
                 Intent i = new Intent(LikeActivity.this, DetailActivity.class);
                 i.putExtra("key", key);
                 startActivity(i);
-                finish();
             }
 
             else if(result.equals("add successfully")) {
@@ -170,9 +169,7 @@ public class LikeActivity extends AppCompatActivity {
                 Intent i = new Intent(LikeActivity.this, DetailActivity.class);
                 i.putExtra("key", key);
                 startActivity(i);
-                finish();
             }
         }
-
     }
 }

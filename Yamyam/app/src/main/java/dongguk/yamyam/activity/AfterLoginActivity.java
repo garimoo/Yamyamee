@@ -78,12 +78,10 @@ public class AfterLoginActivity extends Activity {
 
         Intent intent = new Intent(AfterLoginActivity.this, LoginActivity.class);
         startActivity(intent);
-        finish();
     }
 
     private void continueApp() {
         Intent intent = new Intent(AfterLoginActivity.this, MainActivity.class);
         startActivity(intent);
-        finish();
     }
 }

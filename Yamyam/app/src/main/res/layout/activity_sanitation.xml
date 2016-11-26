@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/light_yellow"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:id="@+id/activity_sanitation"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:weightSum="10">
+
+        <ImageButton
+            android:background="@drawable/aaa"
+            android:layout_height="0dp"
+            android:layout_width="150dp"
+            android:id="@+id/aaabtn"
+            android:layout_marginBottom="50dp"
+            android:layout_weight="2"
+            android:onClick="AAA_onclick"/>
+
+        <ImageButton
+            android:background="@drawable/aa"
+            android:layout_height="0dp"
+            android:layout_width="150dp"
+            android:id="@+id/aabtn"
+            android:layout_marginBottom="50dp"
+            android:layout_weight="2"
+            android:onClick="AA_onclick"/>
+
+        <ImageButton
+            android:background="@drawable/a"
+            android:layout_height="0dp"
+            android:layout_width="150dp"
+            android:id="@+id/abtn"
+            android:layout_weight="2"
+            android:onClick="A_onclick"/>
+
+    </LinearLayout>
+
+</LinearLayout>

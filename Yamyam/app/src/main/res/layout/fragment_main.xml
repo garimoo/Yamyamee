@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/img_main"
+    android:gravity="center"
+    android:id="@+id/main"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:orientation="vertical"
+    android:weightSum="1"
+    tools:context="dongguk.yamyam.activity.MainActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:paddingTop="100dp"
+            android:layout_width="150dp"
+            android:layout_height="200dp"
+            android:id="@+id/imageView2"
+            android:background="@drawable/nyam_logo"
+            android:layout_gravity="center_horizontal"
+            />
+        <ImageView
+            android:paddingTop="20dp"
+            android:layout_width="316dp"
+            android:layout_height="11dp"
+            android:id="@+id/imageView22"
+            android:background="@drawable/bee"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"/>
+        <ImageButton
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="250dp"
+            android:layout_height="41dp"
+            android:id="@+id/magnifierbtn"
+            android:onClick="magnifier_onclick"
+            android:background="@drawable/btn_find"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"/>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/searchbtn"
+                android:onClick="search_onclick"
+                android:background="@drawable/main_cat"
+                android:layout_marginRight="20dp"/>
+
+
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/gpsbtn"
+                android:onClick="gps_onclick"
+                android:background="@drawable/main_loc"
+                android:layout_marginRight="20dp"/>
+
+
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/sanibtn"
+                android:onClick="sani_onclick"
+                android:background="@drawable/main_wash" />
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

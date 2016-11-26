@@ -172,7 +172,7 @@ public class WriteReviewActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             Intent i=new Intent(WriteReviewActivity.this, DetailActivity.class);
-            i.putExtra("key", key); startActivity(i); finish();
+            i.putExtra("key", key); startActivity(i);
         }
     }
 }

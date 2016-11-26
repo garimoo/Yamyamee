@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request.Method;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -182,8 +183,8 @@ public class RegisterActivity extends Activity {
         }) {
 
             @Override
-            protected Map<String, String> getParams() {
-                // Posting params to register url
+            protected Map<String, String> getParams()
+                    throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("name", name);
                 params.put("email", email);
@@ -235,8 +236,8 @@ public class RegisterActivity extends Activity {
             inputEmail.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            inputPassword.setError("4 - 10자리의 비밀번호를 입력하세요");
+        if (password.isEmpty() || password.length() < 4 || password.length() > 15) {
+            inputPassword.setError("4 - 15자리의 비밀번호를 입력하세요");
             valid = false;
         } else {
             if (password == passwordCheck) {

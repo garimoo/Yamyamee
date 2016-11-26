@@ -5,7 +5,7 @@ package dongguk.yamyam.app;
  */
 public class AppConfig {
 	// Server user login url
-	public static String ip = "192.168.0.9";
+	public static String ip = "nyamnyam.dothome.co.kr";
 
 	public static String URL_LOGIN = "http://" + ip + "/yamyam_api/login.php";
 
