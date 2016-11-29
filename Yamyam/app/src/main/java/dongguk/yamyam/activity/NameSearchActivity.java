@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -54,13 +55,15 @@ public class NameSearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_store);
+
+        //new AsyncFetch("엉터리", NameSearchActivity.this).execute();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
+        //super.onCreateOptionsMenu(menu);
         // adds item to action bar
-        getMenuInflater().inflate(R.menu.search_main, menu);
+        super.getMenuInflater().inflate(R.menu.search_main, menu);
 
         // Get Search item from action bar and Get Search service
         MenuItem searchItem = menu.findItem(R.id.action_search);
@@ -72,7 +75,9 @@ public class NameSearchActivity extends AppCompatActivity {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(NameSearchActivity.this.getComponentName()));
             searchView.setIconified(false);
         }
+        Log.d("contextTest", "menu");
         return true;
+        //return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -90,8 +95,9 @@ public class NameSearchActivity extends AppCompatActivity {
             if (searchView != null) {
                 searchView.clearFocus();
             }
-            new AsyncFetch(query).execute();
-
+            Log.d("contextTest", "come");
+            Log.d("newIntent", query);
+            new AsyncFetch(query, NameSearchActivity.this).execute();
         }
     }
 
@@ -102,9 +108,12 @@ public class NameSearchActivity extends AppCompatActivity {
         HttpURLConnection conn;
         URL url = null;
         String searchQuery;
+        Context context;
 
-        public AsyncFetch(String searchQuery){
+        public AsyncFetch(String searchQuery, Context context){
             this.searchQuery=searchQuery;
+            this.context = context;
+            Log.d("contextTest", "10");
         }
 
         @Override
@@ -115,6 +124,7 @@ public class NameSearchActivity extends AppCompatActivity {
             pdLoading.setMessage("\tLoading...");
             pdLoading.setCancelable(false);
             pdLoading.show();
+            Log.d("contextTest", "20");
 
         }
 
@@ -178,6 +188,7 @@ public class NameSearchActivity extends AppCompatActivity {
                     }
 
                     // Pass data to onPostExecute method
+                    Log.d("resultTest", result.toString());
                     return (result.toString());
 
                 } else {
@@ -256,9 +267,12 @@ public class NameSearchActivity extends AppCompatActivity {
 
                     // Setup and Handover data to recyclerview
                     mRVStore = (RecyclerView) findViewById(R.id.storeList);
-                    mAdapter = new AdapterStore(NameSearchActivity.this, data);
+                    mAdapter = new AdapterStore(context, data);
                     mRVStore.setAdapter(mAdapter);
                     mRVStore.setLayoutManager(new LinearLayoutManager(NameSearchActivity.this));
+                    mAdapter.notifyDataSetChanged();
+                    Log.d("contextTest", "30");
+
 
                 } catch (JSONException e) {
                     // You to understand what actually error is and handle it appropriately
