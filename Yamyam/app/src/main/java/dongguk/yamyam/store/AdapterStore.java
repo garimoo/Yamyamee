@@ -26,9 +26,11 @@ public class AdapterStore extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     // create constructor to initialize context and data sent from NameSearchActivity
     public AdapterStore(Context context, List<DataStore> data){
+
         this.context=context;
         inflater= LayoutInflater.from(context);
         this.data=data;
+        Log.d("contextTest","1");
     }
 
     // Inflate the layout when ViewHolder created
@@ -36,19 +38,20 @@ public class AdapterStore extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view=inflater.inflate(R.layout.container_store, parent,false);
         MyHolder holder=new MyHolder(view);
+        Log.d("contextTest","2");
         return holder;
     }
 
     // Bind data
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
         // Get current position of item in RecyclerView to bind data and assign values from list
         MyHolder myHolder= (MyHolder) holder;
         DataStore current=data.get(position);
         myHolder.textName.setText(current.storeName);
         myHolder.textAddress.setText(current.storeAddress);
         myHolder.textSubject.setText(current.storeSubject);
+        Log.d("contextTest","3");
     }
     // return total item from List
     @Override
