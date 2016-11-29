@@ -2,9 +2,12 @@ package dongguk.yamyam.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -45,6 +48,8 @@ public class WriteReviewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFA500")));
         setContentView(R.layout.activity_review_write);
         // SqLite database handler
         db = new SQLiteHandler(getApplicationContext());
@@ -172,7 +177,7 @@ public class WriteReviewActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             Intent i=new Intent(WriteReviewActivity.this, DetailActivity.class);
-            i.putExtra("key", key); startActivity(i); finish();
+            i.putExtra("key", key); startActivity(i);
         }
     }
 }

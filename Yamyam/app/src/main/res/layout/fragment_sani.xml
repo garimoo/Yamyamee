@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/black"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:weightSum="9"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+            <ImageButton
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:adjustViewBounds="true"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:id="@+id/aaabtn"
+                android:src="@drawable/btn_aaa"
+                android:scaleType="fitCenter"
+                android:layout_gravity="center_horizontal"
+                android:onClick="AAA_onclick" />
+            <ImageButton
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:id="@+id/aabtn"
+                android:src="@drawable/btn_aa"
+                android:onClick="AA_onclick" />
+            <ImageButton
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:id="@+id/abtn"
+                android:src="@drawable/btn_a"
+                android:onClick="A_onclick" />
+</LinearLayout>

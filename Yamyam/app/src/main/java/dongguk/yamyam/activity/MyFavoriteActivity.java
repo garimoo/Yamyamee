@@ -1,9 +1,12 @@
 package dongguk.yamyam.activity;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,7 +35,6 @@ import dongguk.yamyam.app.AppConfig;
 import dongguk.yamyam.helper.SQLiteHandler;
 import dongguk.yamyam.store.AdapterStore;
 import dongguk.yamyam.store.DataStore;
-
 /**
  * Created by SJ on 2016-11-16.
  */
@@ -49,6 +51,8 @@ public class MyFavoriteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFA500")));
         setContentView(R.layout.activity_recycler_store);
         // SqLite database handler
         db = new SQLiteHandler(getApplicationContext());
@@ -220,7 +224,7 @@ public class MyFavoriteActivity extends AppCompatActivity {
 
                     // Setup and Handover data to recyclerview
                     mRVStore = (RecyclerView) findViewById(R.id.storeList);
-                    mAdapter = new AdapterStore(MyFavoriteActivity.this, data);
+                    mAdapter = new AdapterStore(MyFavoriteActivity.this, data, getApplicationContext());
                     mRVStore.setAdapter(mAdapter);
                     mRVStore.setLayoutManager(new LinearLayoutManager(MyFavoriteActivity.this));
 

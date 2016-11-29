@@ -1,9 +1,12 @@
 package dongguk.yamyam.activity;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,6 +48,8 @@ public class ReviewListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FFA500")));
         setContentView(R.layout.activity_recycler_review);
 
         String key = getIntent().getStringExtra("key");
@@ -171,6 +176,7 @@ public class ReviewListActivity extends AppCompatActivity {
                         DataReview reviewData = new DataReview();
                         reviewData.reviewId = json_data.getString("writer");
                         reviewData.reviewDate = json_data.getString("created_at");
+                        reviewData.reviewRate = json_data.getString("rating");
                         reviewData.reviewContent = json_data.getString("contents");
                         data.add(reviewData);
                     }

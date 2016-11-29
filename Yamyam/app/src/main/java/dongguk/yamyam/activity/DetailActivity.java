@@ -9,7 +9,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
@@ -34,6 +37,8 @@ import java.util.HashMap;
 
 import dongguk.yamyam.R;
 import dongguk.yamyam.app.AppConfig;
+import dongguk.yamyam.app.AppController;
+import dongguk.yamyam.store.DetailTabAdapter;
 import dongguk.yamyam.helper.SQLiteHandler;
 import dongguk.yamyam.store.DataStore;
 
@@ -44,9 +49,14 @@ public class DetailActivity extends AppCompatActivity {
     private SQLiteHandler db;
     String key;
     String id;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     RatingBar rb;
-    DataStore storeData;
+    public DataStore storeData;
+
+    AppController appController;
+
     ImageButton favorite;
     TextView textName;
     TextView textSubject;
@@ -63,43 +73,99 @@ public class DetailActivity extends AppCompatActivity {
 
         HashMap<String, String> user = db.getUserDetails();
 
+        appController = (AppController)getApplicationContext();
+
         rb = (RatingBar) findViewById(R.id.detailRating);
-        id = user.get("id");
-        key = getIntent().getStringExtra("key");
         favorite = (ImageButton) findViewById(R.id.likeButton);
 
-        new AsyncFetch(id + "$" + key).execute();
+        if(appController.getFavorite() == true) {
+            favorite.setBackgroundResource(R.drawable.star_yes);
+        }
+        else favorite.setBackgroundResource(R.drawable.star_no);
+
+        textName = (TextView) findViewById(R.id.textName);
+        textSubject = (TextView) findViewById(R.id.textSubject);
+        textAddress = (TextView) findViewById(R.id.textAddr);
+        textScore = (TextView) findViewById(R.id.textScore);
+
+        Log.d(appController.getSname(), "detailName");
+        Log.d(appController.getSubject(), "detailSubject");
+        Log.d(appController.getAddr(), "detailAddr");
+
+        textName.setText(appController.getSname());
+        textSubject.setText(appController.getSubject());
+        textAddress.setText(appController.getAddr());
+
+        float score = appController.getScore();
+
+        rb.setRating(score);
+
+        textScore.setText(Float.toString(Math.round(score * 100f) / 100f));
+
+        favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // continueApp();
+                new AsyncFavorite(id + "$" + key).execute();
+            }
+        });
+
+        //탭 구현
+        // Initializing the TabLayout
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout_detail);
+        tabLayout.addTab(tabLayout.newTab().setText("가게정보"));
+        tabLayout.addTab(tabLayout.newTab().setText("리뷰"));
+        tabLayout.addTab(tabLayout.newTab().setText("지도"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        // Initializing ViewPager
+        viewPager = (ViewPager) findViewById(R.id.pager_detail);
+
+        // Creating TabPagerAdapter adapter
+        final DetailTabAdapter pagerAdapter = new DetailTabAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), getApplicationContext());
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(3);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+                pagerAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+        });
     }
 
-    // Create class AsyncFetch
-    private class AsyncFetch extends AsyncTask<String, String, String> {
-
+    private class AsyncFavorite extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(DetailActivity.this);
         HttpURLConnection conn;
         URL url = null;
         String searchQuery;
 
-        public AsyncFetch(String searchQuery){
-            this.searchQuery=searchQuery;
+        public AsyncFavorite(String searchQuery) {
+            this.searchQuery = searchQuery;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            //this method will be running on UI thread
-            pdLoading.setMessage("\tLoading...");
-            pdLoading.setCancelable(false);
-            pdLoading.show();
-
         }
 
         @Override
         protected String doInBackground(String... params) {
             try {
-
                 // Enter URL address where your php file resides
-                url = new URL(AppConfig.URL_DETAIL_SEARCH);
+                url = new URL(AppConfig.URL_FAVORITE);
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -107,7 +173,6 @@ public class DetailActivity extends AppCompatActivity {
                 return e.toString();
             }
             try {
-
                 // Setup HttpURLConnection class to send and receive data from php and mysql
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(READ_TIMEOUT);
@@ -137,12 +202,10 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             try {
-
                 int response_code = conn.getResponseCode();
 
                 // Check if successful connection made
                 if (response_code == HttpURLConnection.HTTP_OK) {
-
                     // Read data sent from server
                     InputStream input = conn.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(input));
@@ -157,7 +220,7 @@ public class DetailActivity extends AppCompatActivity {
                     return (result.toString());
 
                 } else {
-                    return("Connection error");
+                    return ("Connection error");
                 }
 
             } catch (IOException e) {
@@ -170,83 +233,26 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-
             //this method will be running on UI thread
             pdLoading.dismiss();
-
-            pdLoading.dismiss();
-            if(result.equals("no rows")) {
-                Toast.makeText(DetailActivity.this, "검색 결과가 존재하지 않습니다.", Toast.LENGTH_LONG).show();
-            }else{
-
-                try {
-                    JSONArray jArray = new JSONArray(result);
-
-                    JSONObject json_score = jArray.getJSONObject(0);
-                    JSONObject json_data = jArray.getJSONObject(1);
-
-                    storeData = new DataStore();
-
-                    storeData.storeKey = json_data.getString("serial");
-                    storeData.storeName = json_data.getString("name");
-                    storeData.storeSubject = json_data.getString("genre");
-                    storeData.storeAddress = json_data.getString("addr");
-                    storeData.storePhone = json_data.getString("phone");
-                    storeData.storeLatX = json_data.getString("x_dnts");
-                    storeData.storeLongY = json_data.getString("y_dnts");
-
-                    if(json_data.has("1") == true) {
-                        favorite.setBackgroundResource(R.drawable.star1);
-                    }
-                    else favorite.setBackgroundResource(R.drawable.star2);
-
-                    textName = (TextView) findViewById(R.id.textName);
-                    textSubject = (TextView) findViewById(R.id.textSubject);
-                    textAddress = (TextView) findViewById(R.id.textAddress);
-                    textPhone = (TextView) findViewById(R.id.textPhone);
-                    textScore = (TextView) findViewById(R.id.textScore);
-
-                    textName.setText(storeData.storeName);
-                    textSubject.setText(storeData.storeSubject);
-                    textAddress.setText(storeData.storeAddress);
-                    textPhone.setText(storeData.storePhone);
-
-                    String stringScore = json_score.getString("AVG(score)");
-
-                    if(stringScore != "null") storeData.storeScore = Float.valueOf(stringScore);
-                    else storeData.storeScore = (float)0;
-
-                    rb.setRating(storeData.storeScore);
-                    textScore.setText(Float.toString(Math.round(storeData.storeScore * 100f) / 100f));
-
-                } catch (JSONException e) {
-                    // You to understand what actually error is and handle it appropriately
-                    Toast.makeText(DetailActivity.this, e.toString(), Toast.LENGTH_LONG).show();
-                    Toast.makeText(DetailActivity.this, result.toString(), Toast.LENGTH_LONG).show();
-                }
+            if (result.equals("already exists")) {
+                Toast.makeText(DetailActivity.this, "즐겨찾기에서 제거되었습니다.", Toast.LENGTH_LONG).show();
+                favorite.setBackgroundResource(R.drawable.star2);
+            } else if (result.equals("add successfully")) {
+                Toast.makeText(DetailActivity.this, "즐겨찾기에 추가되었습니다.", Toast.LENGTH_LONG).show();
+                favorite.setBackgroundResource(R.drawable.star1);
             }
         }
     }
 
-    public void like_onclick(View v){
-        Intent i=new Intent(this, LikeActivity.class);
-        i.putExtra("key", key); startActivity(i);
-    }
-
-    public void review_onclick(View v){
-        Intent i=new Intent(this, ReviewListActivity.class);
-        i.putExtra("key", key); startActivity(i);
-    }
-
-    public void review_write_onclick(View v){
+    public void write_review_onclick(View v){
         Intent i=new Intent(this, WriteReviewActivity.class);
         i.putExtra("key", key); startActivity(i);
     }
 
-    public void gps_onclick(View v){
-        Intent i=new Intent(this, DetailGpsActivity.class);
-        i.putExtra("xy_dnts", storeData.storeLatX +"," + storeData.storeLongY);
-        startActivity(i);
+    public void share_kakao_onclick(View v){
+        //Intent i=new Intent(this, DetailGpsActivity.class);
+        //i.putExtra("xy_dnts", storeData.storeLatX +"," + storeData.storeLongY);
+        //startActivity(i);
     }
 }
-

@@ -6,5 +6,6 @@ package dongguk.yamyam.store;
 public class DataReview {
     public String reviewId;
     public String reviewDate;
+    public String reviewRate;
     public String reviewContent;
 }

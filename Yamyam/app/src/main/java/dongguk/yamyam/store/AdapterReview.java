@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.Collections;
@@ -46,6 +47,9 @@ public class AdapterReview extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         myHolder.textId.setText(current.reviewId);
         myHolder.textDate.setText(current.reviewDate);
         myHolder.textContent.setText(current.reviewContent);
+
+        myHolder.rb.setRating(Float.parseFloat(current.reviewRate));
+        myHolder.textScore.setText(Float.toString(Math.round(Float.parseFloat(current.reviewRate) * 100f) / 100f));
     }
 
     // return total item from List
@@ -60,6 +64,8 @@ public class AdapterReview extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView textId;
         TextView textDate;
         TextView textContent;
+        TextView textScore;
+        RatingBar rb;
 
         // create constructor to get widget reference
         public MyHolder(View itemView) {
@@ -67,6 +73,8 @@ public class AdapterReview extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             textId= (TextView) itemView.findViewById(R.id.textId);
             textDate = (TextView) itemView.findViewById(R.id.textDate);
             textContent = (TextView) itemView.findViewById(R.id.textContent);
+            textScore = (TextView) itemView.findViewById(R.id.textScore);
+            rb = (RatingBar) itemView.findViewById(R.id.reviewRating);
             itemView.setOnClickListener(this);
         }
 

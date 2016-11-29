@@ -92,6 +92,7 @@ public class AdapterDistance extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 }
+
 class DistanceComparator implements Comparator<DataStore> {
     public int compare(DataStore first, DataStore second){
         double firstValue = first.storeDistance;

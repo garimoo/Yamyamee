@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ import java.util.List;
 
 import dongguk.yamyam.R;
 import dongguk.yamyam.app.AppConfig;
+import dongguk.yamyam.app.AppController;
 import dongguk.yamyam.store.AdapterStore;
 import dongguk.yamyam.store.DataStore;
 
@@ -47,20 +49,20 @@ public class NameSearchActivity extends AppCompatActivity {
     public static final int READ_TIMEOUT = 15000;
     private RecyclerView mRVStore;
     private AdapterStore mAdapter;
-
     SearchView searchView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recycler_store);
+        //new AsyncFetch("엉터리", NameSearchActivity.this).execute();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
+        //super.onCreateOptionsMenu(menu);
         // adds item to action bar
-        getMenuInflater().inflate(R.menu.search_main, menu);
+        super.getMenuInflater().inflate(R.menu.search_main, menu);
 
         // Get Search item from action bar and Get Search service
         MenuItem searchItem = menu.findItem(R.id.action_search);
@@ -72,7 +74,9 @@ public class NameSearchActivity extends AppCompatActivity {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(NameSearchActivity.this.getComponentName()));
             searchView.setIconified(false);
         }
+        Log.d("contextTest", "menu");
         return true;
+        //return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -90,8 +94,9 @@ public class NameSearchActivity extends AppCompatActivity {
             if (searchView != null) {
                 searchView.clearFocus();
             }
-            new AsyncFetch(query).execute();
-
+            Log.d("contextTest", "come");
+            Log.d("newIntent", query);
+            new AsyncFetch(query, NameSearchActivity.this).execute();
         }
     }
 
@@ -102,9 +107,12 @@ public class NameSearchActivity extends AppCompatActivity {
         HttpURLConnection conn;
         URL url = null;
         String searchQuery;
+        Context context;
 
-        public AsyncFetch(String searchQuery){
+        public AsyncFetch(String searchQuery, Context context){
             this.searchQuery=searchQuery;
+            this.context = context;
+            Log.d("contextTest", "10");
         }
 
         @Override
@@ -115,6 +123,7 @@ public class NameSearchActivity extends AppCompatActivity {
             pdLoading.setMessage("\tLoading...");
             pdLoading.setCancelable(false);
             pdLoading.show();
+            Log.d("contextTest", "20");
 
         }
 
@@ -178,6 +187,7 @@ public class NameSearchActivity extends AppCompatActivity {
                     }
 
                     // Pass data to onPostExecute method
+                    Log.d("resultTest", result.toString());
                     return (result.toString());
 
                 } else {
@@ -207,58 +217,35 @@ public class NameSearchActivity extends AppCompatActivity {
             }else{
 
                 try {
-
                     JSONArray jArray = new JSONArray(result);
 
+                    JSONObject json_score = jArray.getJSONObject(0);
+
                     // Extract data from json and store into ArrayList as class objects
-                    for (int i = 0; i < jArray.length(); i++) {
+                    for (int i = 1; i < jArray.length(); i++) {
                         JSONObject json_data = jArray.getJSONObject(i);
                         DataStore storeData = new DataStore();
                         storeData.storeKey = json_data.getString("serial");
                         storeData.storeName = json_data.getString("name");
                         storeData.storeAddress = json_data.getString("addr");
+                        storeData.storePhone = json_data.getString("crf_type");
+                        storeData.storeDate = json_data.getString("crf_date");
                         storeData.storePhone = json_data.getString("phone");
                         storeData.storeLatX = json_data.getString("x_dnts");
                         storeData.storeLongY = json_data.getString("y_dnts");
-                        /********************************************************************/
+
                         int genre = json_data.getInt("genre");
-                        if(genre == 10101) storeData.storeSubject = "한식";
-                        else if(genre == 10102) storeData.storeSubject = "중식";
-                        else if(genre == 10103) storeData.storeSubject = "양식";
-                        else if(genre == 10104) storeData.storeSubject = "일식";
-                        else if(genre == 10105) storeData.storeSubject = "분식";
-                        else if(genre == 10106) storeData.storeSubject = "뷔페식";
-                        else if(genre == 10107) storeData.storeSubject = "선술집";
-                        else if(genre == 10108) storeData.storeSubject = "전통찻집";
-                        else if(genre == 10110) storeData.storeSubject = "출장조리";
-                        else if(genre == 10111) storeData.storeSubject = "패스트푸드 ";
-                        else if(genre == 10112) storeData.storeSubject = "호프";
-                        else if(genre == 10113) storeData.storeSubject = "치킨집";
-                        else if(genre == 10114) storeData.storeSubject = "복어취급";
-                        else if(genre == 10115) storeData.storeSubject = "도시락";
-                        else if(genre == 10116) storeData.storeSubject = "생선회";
-                        else if(genre == 10117) storeData.storeSubject = "카페";
-                        else if(genre == 10118) storeData.storeSubject = "식육취급";
-                        else if(genre == 10119) storeData.storeSubject = "탕류";
-                        else if(genre == 10199) storeData.storeSubject = "기타(일반음식점)";
-                        else if(genre == 10301) storeData.storeSubject = "단란주점";
-                        else if(genre == 10401) storeData.storeSubject = "과자점";
-                        else if(genre == 10501) storeData.storeSubject = "집단급식소";
-                        else if(genre == 10601) storeData.storeSubject = "식품제조가공업";
-                        else if(genre == 10701) storeData.storeSubject = "즉석판매제조가공업";
-                        else if(genre == 11401) storeData.storeSubject = "기타식품판매업";
-                        else if(genre == 12101) storeData.storeSubject = "제과점영업";
-                        else if(genre == 90001) storeData.storeSubject = "안심식육판매점";
-                        else if(genre == -1) storeData.storeSubject = "NONE";
-                        /********************************************************************/
+                        storeData.storeSubject = setSubject(genre);
+
                         data.add(storeData);
                     }
-
                     // Setup and Handover data to recyclerview
                     mRVStore = (RecyclerView) findViewById(R.id.storeList);
-                    mAdapter = new AdapterStore(NameSearchActivity.this, data);
+                    mAdapter = new AdapterStore(context, data, getApplicationContext());
                     mRVStore.setAdapter(mAdapter);
                     mRVStore.setLayoutManager(new LinearLayoutManager(NameSearchActivity.this));
+                    mAdapter.notifyDataSetChanged();
+                    Log.d("contextTest", "30");
 
                 } catch (JSONException e) {
                     // You to understand what actually error is and handle it appropriately
@@ -267,5 +254,36 @@ public class NameSearchActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+    public String setSubject(int genre) {
+        if(genre == 10101) return "한식";
+        else if(genre == 10102) return "중식";
+        else if(genre == 10103) return "양식";
+        else if(genre == 10104) return "일식";
+        else if(genre == 10105) return "분식";
+        else if(genre == 10106) return "뷔페식";
+        else if(genre == 10107) return "선술집";
+        else if(genre == 10108) return "전통찻집";
+        else if(genre == 10110) return "출장조리";
+        else if(genre == 10111) return "패스트푸드 ";
+        else if(genre == 10112) return "호프";
+        else if(genre == 10113) return "치킨집";
+        else if(genre == 10114) return "복어취급";
+        else if(genre == 10115) return "도시락";
+        else if(genre == 10116) return "생선회";
+        else if(genre == 10117) return "카페";
+        else if(genre == 10118) return "식육취급";
+        else if(genre == 10119) return "탕류";
+        else if(genre == 10199) return "기타(일반음식점)";
+        else if(genre == 10301) return "단란주점";
+        else if(genre == 10401) return "과자점";
+        else if(genre == 10501) return "집단급식소";
+        else if(genre == 10601) return "식품제조가공업";
+        else if(genre == 10701) return "즉석판매제조가공업";
+        else if(genre == 11401) return "기타식품판매업";
+        else if(genre == 12101) return "제과점영업";
+        else if(genre == 90001) return "안심식육판매점";
+        else if(genre == -1) return "NONE";
+        else return null;
     }
 }
