@@ -22,11 +22,13 @@ public class AppConfig {
 
 	public static String URL_REVIEW_SEARCH = "http://" + ip + "/yamyam_api/review-search.php";
 
-	public static String URL_REVIEW_WRITE = "http://" + ip + "/yamyam_api/review-write.php";
+	public static String URL_REVIEW_WRITE = "http://" + ip + "/yamyam_api/PhotoUpload/upload.php";
 
 	public static String URL_FAVORITE = "http://" + ip + "/yamyam_api/favorite.php";
 
 	public static String URL_LOAD_FAVORITE = "http://" + ip + "/yamyam_api/load-favorite.php";
 
 	public static String URL_GPS_SEARCH = "http://" + ip + "/yamyam_api/gps-search.php";
+
+	public static final String URL_UPLOAD_IMAGE = "http://" + ip + "/yamyam_api/PhotoUpload/upload.php";
 }

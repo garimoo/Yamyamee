@@ -17,8 +17,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/launch_icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme.NoActionBar"
-        android:largeHeap="true">
+        android:largeHeap="true"
+        android:hardwareAccelerated="false">
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/app_name"
@@ -38,15 +38,18 @@
         <activity
             android:name=".activity.RegisterActivity"
             android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTop" />
 
         <activity android:name=".activity.NameSearchActivity"
+            android:theme="@style/Theme.AppCompat.Light"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -59,71 +62,85 @@
 
         <activity
             android:name=".activity.SelectActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name">
         </activity>
 
         <activity
             android:name=".activity.RegionActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name">
         </activity>
 
         <activity
             android:name=".activity.SelectSearchActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name">
         </activity>
 
         <activity
             android:name=".activity.SanitationSearchActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name">
         </activity>
 
         <activity
             android:name=".activity.SanitationActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name">
         </activity>
 
         <activity
             android:name=".activity.DetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name">
         </activity>
 
         <activity
             android:name=".activity.WriteReviewActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name">
         </activity>
 
         <activity
             android:name=".activity.ReviewListActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name">
         </activity>
 
         <activity
             android:name=".activity.LikeActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name">
         </activity>
 
         <activity
             android:name=".activity.MyFavoriteActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name">
         </activity>
 
         <activity
             android:name=".activity.DetailGpsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name">
         </activity>
 
         <activity
             android:name=".activity.MyGpsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name">
         </activity>
 
         <activity
             android:name=".activity.NoticeActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name">
         </activity>
 
         <activity
             android:name=".activity.IntroActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name">
         </activity>
 
